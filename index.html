@@ -3,673 +3,614 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Маджонг с ZK-доказательствами</title>
+    <title>Пасьянс Маджонг</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 10px;
+            background-color: #0a4e2e;
+            overflow-x: hidden;
         }
         header {
             text-align: center;
-            padding: 30px 0;
-            background-color: #1a1a2e;
+            padding: 15px 0;
             color: white;
-            border-radius: 8px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-        .main-content {
-            flex: 2;
-            min-width: 300px;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .sidebar {
-            flex: 1;
-            min-width: 250px;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .demo-section {
-            margin-top: 40px;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .download-btn {
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 4px;
-            margin: 10px 0;
-            transition: background-color 0.3s;
-        }
-        .download-btn:hover {
-            background-color: #45a049;
-        }
-        .game-img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .feature-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .feature-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .feature-list li:before {
-            content: "✓";
-            color: #4CAF50;
-            margin-right: 10px;
-        }
-        .code-block {
-            background-color: #f8f8f8;
-            border-left: 4px solid #4CAF50;
-            padding: 15px;
-            margin: 20px 0;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-        }
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            color: #666;
-        }
-        
-        /* Игровой интерфейс */
-        #game-container {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f0f8ff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        #game-board {
+        .game-container {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            background-color: #0a6e3c;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .game-stats {
+            display: flex;
             gap: 20px;
         }
-        
-        .player-hand {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 15px;
-            background-color: #e8f5e9;
+        .board-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: auto;
+            background-color: #0a5e30;
             border-radius: 8px;
         }
-        
-        .opponent-hand {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 15px;
-            background-color: #ffebee;
-            border-radius: 8px;
+        #game-board {
+            position: relative;
+            margin: 0 auto;
+            width: max-content;
+            min-width: 100%;
+            min-height: 100%;
+            padding: 20px;
         }
-        
-        .discard-pile {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 15px;
-            background-color: #e0f7fa;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-        
         .tile {
-            width: 40px;
-            height: 60px;
-            background-color: #fff;
-            border: 2px solid #aaa;
-            border-radius: 5px;
+            position: absolute;
+            width: 55px;
+            height: 70px;
+            background-color: #f0f0f0;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            transition: transform 0.1s, box-shadow 0.1s;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 20px;
             font-weight: bold;
-            cursor: pointer;
-            position: relative;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            user-select: none;
         }
-        
         .tile:hover {
+            transform: translateY(-2px);
+            box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3);
+        }
+        .tile.selected {
+            border-color: #ff5722;
+            box-shadow: 0 0 10px #ff5722;
             transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        
-        .tile.character {
-            background-color: #e8f5e9;
-            color: #2e7d32;
+        .tile.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
-        
-        .tile.bamboo {
-            background-color: #f1f8e9;
-            color: #558b2f;
+        .tile.highlight {
+            animation: pulse 1s infinite;
         }
-        
-        .tile.circle {
-            background-color: #fffde7;
-            color: #f9a825;
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px #ffeb3b; }
+            50% { box-shadow: 0 0 15px #ffeb3b; }
+            100% { box-shadow: 0 0 5px #ffeb3b; }
         }
-        
-        .tile.wind {
-            background-color: #e3f2fd;
-            color: #1565c0;
-        }
-        
-        .tile.dragon {
-            background-color: #fce4ec;
-            color: #c2185b;
-        }
-        
-        .tile.back {
-            background-color: #d7ccc8;
-            border-color: #8d6e63;
-        }
-        
         .controls {
             margin-top: 20px;
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
-        
         button {
-            padding: 10px 15px;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             background-color: #4caf50;
             color: white;
             cursor: pointer;
+            font-size: 16px;
             font-weight: bold;
             transition: background-color 0.3s;
         }
-        
         button:hover {
             background-color: #388e3c;
         }
-        
         button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
         }
-        
-        .game-info {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .game-menu {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
         }
-        
-        .message-log {
-            max-height: 150px;
-            overflow-y: auto;
-            background-color: #f5f5f5;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 15px;
-        }
-        
-        .message {
-            margin-bottom: 5px;
-            padding: 5px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .selected {
-            border: 2px solid #ff5722;
-            transform: translateY(-5px);
-        }
-        
-        .proof-info {
-            background-color: #e8eaf6;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 15px;
-            font-family: monospace;
-            font-size: 0.8em;
-            word-break: break-all;
-        }
-        
-        #start-game-btn {
-            background-color: #673ab7;
-            padding: 12px 24px;
-            font-size: 1.1em;
-            margin: 20px auto;
-            display: block;
-        }
-        
-        #start-game-btn:hover {
-            background-color: #512da8;
-        }
-        
-        .tab-container {
-            margin-top: 30px;
-        }
-        
-        .tabs {
+        .layout-options {
             display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
         }
-        
-        .tab {
+        .layout-button {
+            background-color: #3f51b5;
+            color: white;
             padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            background-color: #f1f1f1;
-            border: 1px solid #ddd;
-            border-bottom: none;
-            border-radius: 5px 5px 0 0;
-            margin-right: 5px;
+            transition: background-color 0.3s;
         }
-        
-        .tab.active {
-            background-color: white;
-            border-bottom: 1px solid white;
-            margin-bottom: -1px;
+        .layout-button:hover {
+            background-color: #303f9f;
         }
-        
-        .tab-content {
+        .modal {
             display: none;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-top: none;
-            border-radius: 0 0 5px 5px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 500px;
+            width: 80%;
+        }
+        .modal h2 {
+            margin-top: 0;
+            color: #4caf50;
+        }
+        .modal p {
+            margin-bottom: 20px;
+            font-size: 18px;
         }
         
-        .tab-content.active {
-            display: block;
+        /* Стили для различных типов плиток */
+        .tile.character {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .tile.bamboo {
+            background-color: #f1f8e9;
+            color: #558b2f;
+        }
+        .tile.circle {
+            background-color: #fffde7;
+            color: #f9a825;
+        }
+        .tile.wind {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        .tile.dragon {
+            background-color: #fce4ec;
+            color: #c2185b;
+        }
+        .tile.season {
+            background-color: #e0f2f1;
+            color: #00897b;
+        }
+        .tile.flower {
+            background-color: #f3e5f5;
+            color: #8e24aa;
+        }
+        
+        /* Отображение времени и статистики */
+        .timer, .moves-counter, .tiles-left {
+            font-weight: bold;
+        }
+        
+        /* Анимация для удаляемых плиток */
+        @keyframes remove-tile {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        .removing {
+            animation: remove-tile 0.5s forwards;
+        }
+        
+        /* Устанавливаем z-index для разных слоев плиток */
+        .tile[data-z="0"] { z-index: 1; }
+        .tile[data-z="1"] { z-index: 2; }
+        .tile[data-z="2"] { z-index: 3; }
+        .tile[data-z="3"] { z-index: 4; }
+        .tile[data-z="4"] { z-index: 5; }
+        
+        /* Добавляем трехмерный эффект с помощью тени */
+        .tile::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 55px;
+            height: 70px;
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 3px;
+            z-index: -1;
+        }
+        
+        /* Отзывчивый дизайн */
+        @media (max-width: 768px) {
+            .game-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .game-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .board-container {
+                height: 500px;
+            }
+            .controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .layout-options {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>🀄 Маджонг с ZK-доказательствами</h1>
-        <p>Игра в маджонг с использованием технологии SP1 для создания и верификации ZK-доказательств</p>
+        <h1>🀄 Пасьянс Маджонг</h1>
     </header>
-
-    <div class="tab-container">
-        <div class="tabs">
-            <div class="tab active" onclick="showTab('game-tab')">Играть</div>
-            <div class="tab" onclick="showTab('about-tab')">О проекте</div>
-        </div>
-        
-        <div id="game-tab" class="tab-content active">
-            <button id="start-game-btn">Начать новую игру</button>
-            
-            <div id="game-container" style="display: none;">
-                <div class="game-info">
-                    <h3>Информация об игре</h3>
-                    <p>Текущий игрок: <span id="current-player">Игрок 1</span></p>
-                    <p>Осталось плиток в стене: <span id="tiles-left">0</span></p>
-                    <div class="message-log" id="message-log">
-                        <div class="message">Игра началась!</div>
-                    </div>
-                </div>
-                
-                <div id="game-board">
-                    <div class="opponent-section">
-                        <h3>Противник</h3>
-                        <div class="opponent-hand" id="opponent-hand"></div>
-                        <div class="discard-pile" id="opponent-discards">
-                            <h4>Сброс противника:</h4>
-                        </div>
-                    </div>
-                    
-                    <div class="player-section">
-                        <h3>Ваша рука</h3>
-                        <div class="player-hand" id="player-hand"></div>
-                        <div class="discard-pile" id="player-discards">
-                            <h4>Ваш сброс:</h4>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="controls">
-                    <button id="draw-btn">Взять плитку</button>
-                    <button id="discard-btn" disabled>Сбросить выбранную плитку</button>
-                    <button id="claim-win-btn">Объявить победу</button>
-                    <button id="pass-btn">Пропустить ход</button>
-                </div>
-                
-                <div class="proof-info" id="proof-info">
-                    <h4>ZK-доказательство последнего хода:</h4>
-                    <p id="proof-hash">Нет доказательств</p>
-                </div>
-            </div>
-        </div>
-        
-        <div id="about-tab" class="tab-content">
-            <div class="container">
-                <main class="main-content">
-                    <h2>О проекте</h2>
-                    <p>
-                        Маджонг ZK - это реализация игры в маджонг с упрощенными правилами, где каждый ход игрока 
-                        верифицируется с использованием доказательств с нулевым разглашением (Zero-Knowledge Proof). 
-                        Проект создан для конкурса <strong>Succinct Rockstars: Week 3</strong>.
-                    </p>
-                    
-                    <div class="code-block">
-                        <pre>// Создание ZK-доказательства хода
-let proof = GameProof::new(
-    game_state_before,
-    action,
-    player_idx,
-    new_state
-);</pre>
-                    </div>
-
-                    <h2>Как это работает</h2>
-                    <p>
-                        Каждый ход игрока создает криптографическое доказательство, подтверждающее законность хода без 
-                        раскрытия информации о плитках в руках игроков. Это позволяет:
-                    </p>
-                    <ul>
-                        <li>Подтверждать честность ходов без возможности обмана</li>
-                        <li>Верифицировать победу, не раскрывая стратегию</li>
-                        <li>Сохранять приватность состояний игры</li>
-                        <li>Создавать доказуемо честные онлайн-турниры</li>
-                    </ul>
-                </main>
-
-                <aside class="sidebar">
-                    <h2>Особенности</h2>
-                    <ul class="feature-list">
-                        <li>Игра в маджонг с основными правилами</li>
-                        <li>ZK-доказательства с использованием SP1</li>
-                        <li>Верификация ходов без раскрытия плиток</li>
-                        <li>Подтверждение побед с сохранением приватности</li>
-                        <li>Совместимость с блокчейном</li>
-                    </ul>
-
-                    <h2>Технологии</h2>
-                    <ul class="feature-list">
-                        <li>Rust</li>
-                        <li>SP1 zkVM</li>
-                        <li>STARK & SNARK доказательства</li>
-                        <li>Криптографическое хеширование</li>
-                    </ul>
-
-                    <h2>Ресурсы</h2>
-                    <ul>
-                        <li><a href="https://github.com/vvf11/mahjong-zk">GitHub репозиторий</a></li>
-                        <li><a href="https://github.com/vvf11/mahjong-zk/blob/main/README.md">Документация</a></li>
-                        <li><a href="https://github.com/vvf11/mahjong-zk/blob/main/RULES.md">Правила игры</a></li>
-                        <li><a href="https://docs.succinct.xyz/docs/sp1/introduction">SP1 документация</a></li>
-                    </ul>
-                </aside>
-            </div>
+    
+    <div id="game-menu" class="game-menu">
+        <h2 style="color: white;">Выберите раскладку</h2>
+        <div class="layout-options">
+            <button class="layout-button" data-layout="classic">Классическая</button>
+            <button class="layout-button" data-layout="turtle">Черепаха</button>
+            <button class="layout-button" data-layout="dragon">Дракон</button>
         </div>
     </div>
-
-    <footer>
-        <p>Проект создан для конкурса Succinct Rockstars: Week 3. &copy; 2025</p>
-    </footer>
     
-    <!-- Скрипты -->
+    <div id="game-container" class="game-container" style="display:none;">
+        <div class="game-info">
+            <div>
+                <span>Раскладка: <span id="layout-name">Классическая</span></span>
+            </div>
+            <div class="game-stats">
+                <div>Время: <span id="timer" class="timer">00:00</span></div>
+                <div>Ходов: <span id="moves" class="moves-counter">0</span></div>
+                <div>Осталось плиток: <span id="tiles-left" class="tiles-left">144</span></div>
+            </div>
+        </div>
+        
+        <div class="board-container">
+            <div id="game-board"></div>
+        </div>
+        
+        <div class="controls">
+            <button id="hint-btn">Подсказка</button>
+            <button id="shuffle-btn">Перемешать</button>
+            <button id="undo-btn">Отменить ход</button>
+            <button id="new-game-btn">Новая игра</button>
+        </div>
+    </div>
+    
+    <div id="win-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>Поздравляем! Вы выиграли!</h2>
+            <p>Вы завершили игру за <span id="final-time"></span> с <span id="final-moves"></span> ходов.</p>
+            <button id="play-again-btn">Играть снова</button>
+        </div>
+    </div>
+    
+    <div id="no-moves-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>Нет доступных ходов</h2>
+            <p>Нет возможных совпадающих пар. Плитки будут перемешаны.</p>
+            <button id="reshuffle-btn">Перемешать и продолжить</button>
+        </div>
+    </div>
+    
     <script src="game.js"></script>
     <script>
         // Глобальные переменные
-        let game;
-        let selectedTile = null;
-        let playerIdx = 0;  // Ваш индекс игрока
-        let opponentIdx = 1; // Индекс противника
+        let game = new MahjongSolitaire();
+        let timerInterval;
+        let startTime;
         
-        // Функция для инициализации игры
-        function initGame() {
-            game = new MahjongGame(2);  // Создаем игру для 2 игроков
-            updateGameView();
+        // Константы для размеров плиток и смещений
+        const TILE_WIDTH = 55;
+        const TILE_HEIGHT = 70;
+        const TILE_DEPTH = 4; // Высота одного слоя
+        
+        // Символы для отображения на плитках
+        const TILE_SYMBOLS = {
+            Character: {
+                1: '一', 2: '二', 3: '三', 4: '四', 5: '五', 
+                6: '六', 7: '七', 8: '八', 9: '九'
+            },
+            Bamboo: {
+                1: '🎋', 2: '🎋', 3: '🎋', 4: '🎋', 5: '🎋', 
+                6: '🎋', 7: '🎋', 8: '🎋', 9: '🎋'
+            },
+            Circle: {
+                1: '⚪', 2: '⚪', 3: '⚪', 4: '⚪', 5: '⚪', 
+                6: '⚪', 7: '⚪', 8: '⚪', 9: '⚪'
+            },
+            Wind: {
+                East: '東', South: '南', West: '西', North: '北'
+            },
+            Dragon: {
+                Red: '中', Green: '發', White: '白'
+            },
+            Season: {
+                Spring: '春', Summer: '夏', Autumn: '秋', Winter: '冬'
+            },
+            Flower: {
+                Plum: '梅', Orchid: '蘭', Chrysanthemum: '菊', Bamboo: '竹'
+            }
+        };
+        
+        // DOM элементы
+        const gameBoard = document.getElementById('game-board');
+        const gameMenu = document.getElementById('game-menu');
+        const gameContainer = document.getElementById('game-container');
+        const timerEl = document.getElementById('timer');
+        const movesEl = document.getElementById('moves');
+        const tilesLeftEl = document.getElementById('tiles-left');
+        const layoutNameEl = document.getElementById('layout-name');
+        const winModal = document.getElementById('win-modal');
+        const noMovesModal = document.getElementById('no-moves-modal');
+        const finalTimeEl = document.getElementById('final-time');
+        const finalMovesEl = document.getElementById('final-moves');
+        
+        // Кнопки
+        const hintBtn = document.getElementById('hint-btn');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const undoBtn = document.getElementById('undo-btn');
+        const newGameBtn = document.getElementById('new-game-btn');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        const reshuffleBtn = document.getElementById('reshuffle-btn');
+        const layoutButtons = document.querySelectorAll('.layout-button');
+        
+        // Инициализация игры
+        function initGame(layoutName) {
+            // Очищаем доску
+            gameBoard.innerHTML = '';
             
-            document.getElementById('game-container').style.display = 'block';
-            document.getElementById('start-game-btn').style.display = 'none';
+            // Запускаем новую игру
+            const result = game.newGame(layoutName);
             
-            addMessage("Новая игра началась! Ваш ход.");
+            // Обновляем информацию
+            layoutNameEl.textContent = result.layout;
+            tilesLeftEl.textContent = result.tilesLeft;
+            movesEl.textContent = '0';
+            
+            // Отображаем игровую доску и скрываем меню
+            gameMenu.style.display = 'none';
+            gameContainer.style.display = 'flex';
+            
+            // Рендерим доску
+            renderBoard();
+            
+            // Запускаем таймер
+            startTime = Date.now();
+            startTimer();
         }
         
-        // Функция для обновления представления игры
-        function updateGameView() {
-            const gameState = game.getStateForPlayer(playerIdx);
+        // Рендеринг доски
+        function renderBoard() {
+            const state = game.getGameState();
+            const selectedTileId = state.selectedTile;
             
-            // Обновляем информацию об игре
-            document.getElementById('current-player').textContent = 
-                gameState.currentPlayer === playerIdx ? "Ваш ход" : "Ход противника";
-            document.getElementById('tiles-left').textContent = gameState.wallSize;
+            // Очищаем доску
+            gameBoard.innerHTML = '';
             
-            // Обновляем руку игрока
-            updatePlayerHand(gameState.hand);
+            // Определяем размеры доски для центрирования
+            const layout = game.layout;
+            const boardWidth = (layout.width + 1) * TILE_WIDTH;
+            const boardHeight = (layout.height + 1) * TILE_HEIGHT;
             
-            // Обновляем руку противника (показываем только количество)
-            updateOpponentHand(gameState.otherHands[0].tileCount);
+            // Устанавливаем размеры доски
+            gameBoard.style.width = `${boardWidth}px`;
+            gameBoard.style.height = `${boardHeight}px`;
             
-            // Обновляем сбросы
-            updateDiscards(gameState.discards);
-            
-            // Обновляем доступность кнопок
-            document.getElementById('draw-btn').disabled = gameState.currentPlayer !== playerIdx;
-            document.getElementById('claim-win-btn').disabled = gameState.currentPlayer !== playerIdx;
-            document.getElementById('pass-btn').disabled = gameState.currentPlayer !== playerIdx;
-            document.getElementById('discard-btn').disabled = !selectedTile || gameState.currentPlayer !== playerIdx;
-            
-            // Генерируем ZK-доказательство (имитация)
-            const proofHash = game.createStateHash();
-            document.getElementById('proof-hash').textContent = proofHash;
-        }
-        
-        // Обновление руки игрока
-        function updatePlayerHand(hand) {
-            const playerHandEl = document.getElementById('player-hand');
-            playerHandEl.innerHTML = '';
-            
-            hand.forEach(tile => {
-                const tileEl = createTileElement(tile);
-                tileEl.addEventListener('click', () => {
-                    // Снимаем выделение со всех плиток
-                    document.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
-                    
-                    // Выделяем выбранную плитку
-                    tileEl.classList.add('selected');
-                    selectedTile = tile;
-                    
-                    // Активируем кнопку сброса
-                    document.getElementById('discard-btn').disabled = game.currentPlayer !== playerIdx;
+            // Рендерим каждую плитку
+            state.board.forEach(tile => {
+                const tileElement = document.createElement('div');
+                tileElement.className = `tile ${tile.type.toLowerCase()}`;
+                tileElement.dataset.id = tile.id;
+                tileElement.dataset.z = tile.z;
+                
+                // Позиционируем плитку
+                tileElement.style.left = `${tile.x * TILE_WIDTH}px`;
+                tileElement.style.top = `${tile.y * TILE_HEIGHT}px`;
+                tileElement.style.transform = `translateZ(${tile.z * TILE_DEPTH}px)`;
+                
+                // Добавляем текст/символ на плитку
+                let symbol = '';
+                if (tile.type === TileType.Character || tile.type === TileType.Bamboo || tile.type === TileType.Circle) {
+                    symbol = TILE_SYMBOLS[tile.type][tile.value];
+                } else if (tile.type === TileType.Wind || tile.type === TileType.Dragon ||
+                           tile.type === TileType.Season || tile.type === TileType.Flower) {
+                    symbol = TILE_SYMBOLS[tile.type][tile.subtype];
+                }
+                tileElement.textContent = symbol;
+                
+                // Отмечаем выбранную плитку
+                if (selectedTileId === tile.id) {
+                    tileElement.classList.add('selected');
+                }
+                
+                // Отключаем недоступные плитки
+                if (!tile.isFree) {
+                    tileElement.classList.add('disabled');
+                }
+                
+                // Добавляем обработчик клика
+                tileElement.addEventListener('click', () => {
+                    if (tile.isFree) {
+                        selectTile(tile.id);
+                    }
                 });
-                playerHandEl.appendChild(tileEl);
+                
+                gameBoard.appendChild(tileElement);
             });
         }
         
-        // Обновление руки противника (показываем только закрытые плитки)
-        function updateOpponentHand(tileCount) {
-            const opponentHandEl = document.getElementById('opponent-hand');
-            opponentHandEl.innerHTML = '';
+        // Выбор плитки
+        function selectTile(tileId) {
+            const result = game.selectTile(tileId);
             
-            for (let i = 0; i < tileCount; i++) {
-                const tileEl = document.createElement('div');
-                tileEl.className = 'tile back';
-                tileEl.textContent = '?';
-                opponentHandEl.appendChild(tileEl);
-            }
-        }
-        
-        // Обновление сбросов
-        function updateDiscards(discards) {
-            const playerDiscardsEl = document.getElementById('player-discards');
-            const opponentDiscardsEl = document.getElementById('opponent-discards');
-            
-            // Очищаем предыдущее содержимое, сохраняя заголовок
-            playerDiscardsEl.innerHTML = '<h4>Ваш сброс:</h4>';
-            opponentDiscardsEl.innerHTML = '<h4>Сброс противника:</h4>';
-            
-            // Добавляем сброшенные плитки игрока
-            discards[playerIdx].forEach(tile => {
-                playerDiscardsEl.appendChild(createTileElement(tile));
-            });
-            
-            // Добавляем сброшенные плитки противника
-            discards[opponentIdx].forEach(tile => {
-                opponentDiscardsEl.appendChild(createTileElement(tile));
-            });
-        }
-        
-        // Создание HTML-элемента плитки
-        function createTileElement(tile) {
-            const tileEl = document.createElement('div');
-            
-            let tileClass = 'tile';
-            let tileText = '';
-            
-            switch (tile.type) {
-                case TileType.Character:
-                    tileClass += ' character';
-                    tileText = `C${tile.value}`;
-                    break;
-                case TileType.Bamboo:
-                    tileClass += ' bamboo';
-                    tileText = `B${tile.value}`;
-                    break;
-                case TileType.Circle:
-                    tileClass += ' circle';
-                    tileText = `O${tile.value}`;
-                    break;
-                case TileType.Wind:
-                    tileClass += ' wind';
-                    tileText = tile.subtype.charAt(0);
-                    break;
-                case TileType.Dragon:
-                    tileClass += ' dragon';
-                    tileText = tile.subtype.charAt(0);
-                    break;
-            }
-            
-            tileEl.className = tileClass;
-            tileEl.textContent = tileText;
-            tileEl.dataset.id = tile.id;
-            
-            return tileEl;
-        }
-        
-        // Добавление сообщения в лог
-        function addMessage(message) {
-            const messageLogEl = document.getElementById('message-log');
-            const messageEl = document.createElement('div');
-            messageEl.className = 'message';
-            messageEl.textContent = message;
-            messageLogEl.appendChild(messageEl);
-            
-            // Прокручиваем до последнего сообщения
-            messageLogEl.scrollTop = messageLogEl.scrollHeight;
-        }
-        
-        // Функция для хода противника (AI)
-        function opponentTurn() {
-            setTimeout(() => {
-                if (game.currentPlayer === opponentIdx) {
-                    // Имитация принятия решения компьютером
-                    const result = game.applyAction(opponentIdx, PlayerAction.DrawTile);
-                    addMessage(`Противник: ${result.message}`);
-                    
-                    if (result.success) {
-                        setTimeout(() => {
-                            // Находим случайную плитку для сброса
-                            const hand = game.hands[opponentIdx];
-                            if (hand.length > 0) {
-                                const randomTile = hand[Math.floor(Math.random() * hand.length)];
-                                const discardResult = game.applyAction(opponentIdx, PlayerAction.DiscardTile, randomTile.id);
-                                addMessage(`Противник: ${discardResult.message}`);
-                            }
-                            
-                            updateGameView();
-                        }, 1000);
+            if (result.success) {
+                // Обновляем интерфейс
+                renderBoard();
+                
+                // Обновляем счетчик ходов и оставшиеся плитки
+                movesEl.textContent = game.getGameState().moves;
+                tilesLeftEl.textContent = game.getGameState().tilesLeft;
+                
+                // Проверяем результат действия
+                if (result.action === 'match') {
+                    // Проверяем на завершение игры
+                    if (result.gameOver) {
+                        endGame(result);
+                    } else if (result.shouldReshuffle) {
+                        // Показываем модальное окно о необходимости перемешивания
+                        noMovesModal.style.display = 'flex';
                     }
                 }
-            }, 1500);
+            }
+        }
+        
+        // Получение подсказки
+        function getHint() {
+            const result = game.getHint();
+            
+            if (result.success) {
+                // Подсвечиваем плитки
+                const hintIds = result.hint;
+                
+                hintIds.forEach(id => {
+                    const tileElement = document.querySelector(`.tile[data-id="${id}"]`);
+                    if (tileElement) {
+                        tileElement.classList.add('highlight');
+                        
+                        // Убираем подсветку через 3 секунды
+                        setTimeout(() => {
+                            const el = document.querySelector(`.tile[data-id="${id}"]`);
+                            if (el) {
+                                el.classList.remove('highlight');
+                            }
+                        }, 3000);
+                    }
+                });
+            } else {
+                alert(result.message);
+            }
+        }
+        
+        // Перемешивание плиток
+        function shuffleBoard() {
+            const result = game.shuffleBoard();
+            
+            if (result.success) {
+                renderBoard();
+                alert(result.message);
+            }
+        }
+        
+        // Отмена последнего хода
+        function undoMove() {
+            const result = game.undoMove();
+            
+            if (result.success) {
+                renderBoard();
+                movesEl.textContent = result.moves;
+                tilesLeftEl.textContent = result.tilesLeft;
+            } else {
+                alert(result.message);
+            }
+        }
+        
+        // Запуск таймера
+        function startTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            timerInterval = setInterval(() => {
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsedSeconds / 60);
+                const seconds = elapsedSeconds % 60;
+                timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+        
+        // Остановка таймера
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+        
+        // Завершение игры
+        function endGame(result) {
+            stopTimer();
+            
+            // Обновляем информацию в модальном окне
+            const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsedSeconds / 60);
+            const seconds = elapsedSeconds % 60;
+            
+            finalTimeEl.textContent = `${minutes} мин. ${seconds} сек.`;
+            finalMovesEl.textContent = result.moves;
+            
+            // Показываем модальное окно
+            winModal.style.display = 'flex';
         }
         
         // Установка обработчиков событий
-        document.getElementById('start-game-btn').addEventListener('click', initGame);
         
-        document.getElementById('draw-btn').addEventListener('click', () => {
-            const result = game.applyAction(playerIdx, PlayerAction.DrawTile);
-            addMessage(result.message);
-            updateGameView();
-        });
-        
-        document.getElementById('discard-btn').addEventListener('click', () => {
-            if (selectedTile) {
-                const result = game.applyAction(playerIdx, PlayerAction.DiscardTile, selectedTile.id);
-                addMessage(result.message);
-                selectedTile = null;
-                updateGameView();
-                
-                // Ход противника
-                opponentTurn();
-            }
-        });
-        
-        document.getElementById('claim-win-btn').addEventListener('click', () => {
-            const result = game.applyAction(playerIdx, PlayerAction.ClaimWin);
-            addMessage(result.message);
-            updateGameView();
-            
-            if (result.success) {
-                setTimeout(() => {
-                    alert("Поздравляем! Вы победили!");
-                }, 500);
-            }
-        });
-        
-        document.getElementById('pass-btn').addEventListener('click', () => {
-            const result = game.applyAction(playerIdx, PlayerAction.Pass);
-            addMessage(result.message);
-            updateGameView();
-            
-            // Ход противника
-            opponentTurn();
-        });
-        
-        // Функция для переключения вкладок
-        function showTab(tabId) {
-            // Скрываем все вкладки
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
+        // Выбор раскладки
+        layoutButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const layoutName = e.target.dataset.layout;
+                initGame(layoutName);
             });
-            
-            // Убираем активный класс у всех заголовков вкладок
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Показываем выбранную вкладку
-            document.getElementById(tabId).classList.add('active');
-            
-            // Активируем заголовок вкладки
-            event.currentTarget.classList.add('active');
-        }
+        });
+        
+        // Кнопка подсказки
+        hintBtn.addEventListener('click', getHint);
+        
+        // Кнопка перемешивания
+        shuffleBtn.addEventListener('click', shuffleBoard);
+        
+        // Кнопка отмены хода
+        undoBtn.addEventListener('click', undoMove);
+        
+        // Кнопка новой игры
+        newGameBtn.addEventListener('click', () => {
+            stopTimer();
+            gameContainer.style.display = 'none';
+            gameMenu.style.display = 'block';
+        });
+        
+        // Кнопка "Играть снова" в модальном окне победы
+        playAgainBtn.addEventListener('click', () => {
+            winModal.style.display = 'none';
+            gameContainer.style.display = 'none';
+            gameMenu.style.display = 'block';
+        });
+        
+        // Кнопка "Перемешать и продолжить" в модальном окне отсутствия ходов
+        reshuffleBtn.addEventListener('click', () => {
+            noMovesModal.style.display = 'none';
+            shuffleBoard();
+        });
     </script>
 </body>
 </html> 
