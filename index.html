@@ -98,6 +98,214 @@
             padding: 20px;
             color: #666;
         }
+        
+        /* Игровой интерфейс */
+        #game-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        #game-board {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .player-hand {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+        }
+        
+        .opponent-hand {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background-color: #ffebee;
+            border-radius: 8px;
+        }
+        
+        .discard-pile {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .tile {
+            width: 40px;
+            height: 60px;
+            background-color: #fff;
+            border: 2px solid #aaa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        
+        .tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tile.character {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .tile.bamboo {
+            background-color: #f1f8e9;
+            color: #558b2f;
+        }
+        
+        .tile.circle {
+            background-color: #fffde7;
+            color: #f9a825;
+        }
+        
+        .tile.wind {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .tile.dragon {
+            background-color: #fce4ec;
+            color: #c2185b;
+        }
+        
+        .tile.back {
+            background-color: #d7ccc8;
+            border-color: #8d6e63;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #388e3c;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .game-info {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .message-log {
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        .message {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .selected {
+            border: 2px solid #ff5722;
+            transform: translateY(-5px);
+        }
+        
+        .proof-info {
+            background-color: #e8eaf6;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 0.8em;
+            word-break: break-all;
+        }
+        
+        #start-game-btn {
+            background-color: #673ab7;
+            padding: 12px 24px;
+            font-size: 1.1em;
+            margin: 20px auto;
+            display: block;
+        }
+        
+        #start-game-btn:hover {
+            background-color: #512da8;
+        }
+        
+        .tab-container {
+            margin-top: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -106,81 +314,362 @@
         <p>Игра в маджонг с использованием технологии SP1 для создания и верификации ZK-доказательств</p>
     </header>
 
-    <div class="container">
-        <main class="main-content">
-            <h2>О проекте</h2>
-            <p>
-                Маджонг ZK - это реализация игры в маджонг с упрощенными правилами, где каждый ход игрока 
-                верифицируется с использованием доказательств с нулевым разглашением (Zero-Knowledge Proof). 
-                Проект создан для конкурса <strong>Succinct Rockstars: Week 3</strong>.
-            </p>
+    <div class="tab-container">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('game-tab')">Играть</div>
+            <div class="tab" onclick="showTab('about-tab')">О проекте</div>
+        </div>
+        
+        <div id="game-tab" class="tab-content active">
+            <button id="start-game-btn">Начать новую игру</button>
             
-            <div class="code-block">
-                <pre>// Создание ZK-доказательства хода
+            <div id="game-container" style="display: none;">
+                <div class="game-info">
+                    <h3>Информация об игре</h3>
+                    <p>Текущий игрок: <span id="current-player">Игрок 1</span></p>
+                    <p>Осталось плиток в стене: <span id="tiles-left">0</span></p>
+                    <div class="message-log" id="message-log">
+                        <div class="message">Игра началась!</div>
+                    </div>
+                </div>
+                
+                <div id="game-board">
+                    <div class="opponent-section">
+                        <h3>Противник</h3>
+                        <div class="opponent-hand" id="opponent-hand"></div>
+                        <div class="discard-pile" id="opponent-discards">
+                            <h4>Сброс противника:</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="player-section">
+                        <h3>Ваша рука</h3>
+                        <div class="player-hand" id="player-hand"></div>
+                        <div class="discard-pile" id="player-discards">
+                            <h4>Ваш сброс:</h4>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button id="draw-btn">Взять плитку</button>
+                    <button id="discard-btn" disabled>Сбросить выбранную плитку</button>
+                    <button id="claim-win-btn">Объявить победу</button>
+                    <button id="pass-btn">Пропустить ход</button>
+                </div>
+                
+                <div class="proof-info" id="proof-info">
+                    <h4>ZK-доказательство последнего хода:</h4>
+                    <p id="proof-hash">Нет доказательств</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="about-tab" class="tab-content">
+            <div class="container">
+                <main class="main-content">
+                    <h2>О проекте</h2>
+                    <p>
+                        Маджонг ZK - это реализация игры в маджонг с упрощенными правилами, где каждый ход игрока 
+                        верифицируется с использованием доказательств с нулевым разглашением (Zero-Knowledge Proof). 
+                        Проект создан для конкурса <strong>Succinct Rockstars: Week 3</strong>.
+                    </p>
+                    
+                    <div class="code-block">
+                        <pre>// Создание ZK-доказательства хода
 let proof = GameProof::new(
     game_state_before,
     action,
     player_idx,
     new_state
 );</pre>
+                    </div>
+
+                    <h2>Как это работает</h2>
+                    <p>
+                        Каждый ход игрока создает криптографическое доказательство, подтверждающее законность хода без 
+                        раскрытия информации о плитках в руках игроков. Это позволяет:
+                    </p>
+                    <ul>
+                        <li>Подтверждать честность ходов без возможности обмана</li>
+                        <li>Верифицировать победу, не раскрывая стратегию</li>
+                        <li>Сохранять приватность состояний игры</li>
+                        <li>Создавать доказуемо честные онлайн-турниры</li>
+                    </ul>
+                </main>
+
+                <aside class="sidebar">
+                    <h2>Особенности</h2>
+                    <ul class="feature-list">
+                        <li>Игра в маджонг с основными правилами</li>
+                        <li>ZK-доказательства с использованием SP1</li>
+                        <li>Верификация ходов без раскрытия плиток</li>
+                        <li>Подтверждение побед с сохранением приватности</li>
+                        <li>Совместимость с блокчейном</li>
+                    </ul>
+
+                    <h2>Технологии</h2>
+                    <ul class="feature-list">
+                        <li>Rust</li>
+                        <li>SP1 zkVM</li>
+                        <li>STARK & SNARK доказательства</li>
+                        <li>Криптографическое хеширование</li>
+                    </ul>
+
+                    <h2>Ресурсы</h2>
+                    <ul>
+                        <li><a href="https://github.com/vvf11/mahjong-zk">GitHub репозиторий</a></li>
+                        <li><a href="https://github.com/vvf11/mahjong-zk/blob/main/README.md">Документация</a></li>
+                        <li><a href="https://github.com/vvf11/mahjong-zk/blob/main/RULES.md">Правила игры</a></li>
+                        <li><a href="https://docs.succinct.xyz/docs/sp1/introduction">SP1 документация</a></li>
+                    </ul>
+                </aside>
             </div>
-
-            <h2>Как это работает</h2>
-            <p>
-                Каждый ход игрока создает криптографическое доказательство, подтверждающее законность хода без 
-                раскрытия информации о плитках в руках игроков. Это позволяет:
-            </p>
-            <ul>
-                <li>Подтверждать честность ходов без возможности обмана</li>
-                <li>Верифицировать победу, не раскрывая стратегию</li>
-                <li>Сохранять приватность состояний игры</li>
-                <li>Создавать доказуемо честные онлайн-турниры</li>
-            </ul>
-
-            <div class="demo-section">
-                <h2>Демонстрация</h2>
-                <p>Ниже представлена схема работы ZK-доказательств в игре:</p>
-                <div style="text-align: center;">
-                    <img src="https://via.placeholder.com/800x400?text=Mahjong+ZK+Diagram" alt="Диаграмма работы ZK-доказательств" class="game-img">
-                </div>
-                <p>
-                    Для демонстрации работы игры скачайте исходный код и запустите его локально 
-                    согласно инструкциям в README.
-                </p>
-                <a href="https://github.com/vvf11/mahjong-zk" class="download-btn">Скачать исходный код</a>
-            </div>
-        </main>
-
-        <aside class="sidebar">
-            <h2>Особенности</h2>
-            <ul class="feature-list">
-                <li>Игра в маджонг с основными правилами</li>
-                <li>ZK-доказательства с использованием SP1</li>
-                <li>Верификация ходов без раскрытия плиток</li>
-                <li>Подтверждение побед с сохранением приватности</li>
-                <li>Совместимость с блокчейном</li>
-            </ul>
-
-            <h2>Технологии</h2>
-            <ul class="feature-list">
-                <li>Rust</li>
-                <li>SP1 zkVM</li>
-                <li>STARK & SNARK доказательства</li>
-                <li>Криптографическое хеширование</li>
-            </ul>
-
-            <h2>Ресурсы</h2>
-            <ul>
-                <li><a href="https://github.com/vvf11/mahjong-zk">GitHub репозиторий</a></li>
-                <li><a href="https://github.com/vvf11/mahjong-zk/blob/main/README.md">Документация</a></li>
-                <li><a href="https://github.com/vvf11/mahjong-zk/blob/main/RULES.md">Правила игры</a></li>
-                <li><a href="https://docs.succinct.xyz/docs/sp1/introduction">SP1 документация</a></li>
-            </ul>
-        </aside>
+        </div>
     </div>
 
     <footer>
         <p>Проект создан для конкурса Succinct Rockstars: Week 3. &copy; 2025</p>
     </footer>
+    
+    <!-- Скрипты -->
+    <script src="game.js"></script>
+    <script>
+        // Глобальные переменные
+        let game;
+        let selectedTile = null;
+        let playerIdx = 0;  // Ваш индекс игрока
+        let opponentIdx = 1; // Индекс противника
+        
+        // Функция для инициализации игры
+        function initGame() {
+            game = new MahjongGame(2);  // Создаем игру для 2 игроков
+            updateGameView();
+            
+            document.getElementById('game-container').style.display = 'block';
+            document.getElementById('start-game-btn').style.display = 'none';
+            
+            addMessage("Новая игра началась! Ваш ход.");
+        }
+        
+        // Функция для обновления представления игры
+        function updateGameView() {
+            const gameState = game.getStateForPlayer(playerIdx);
+            
+            // Обновляем информацию об игре
+            document.getElementById('current-player').textContent = 
+                gameState.currentPlayer === playerIdx ? "Ваш ход" : "Ход противника";
+            document.getElementById('tiles-left').textContent = gameState.wallSize;
+            
+            // Обновляем руку игрока
+            updatePlayerHand(gameState.hand);
+            
+            // Обновляем руку противника (показываем только количество)
+            updateOpponentHand(gameState.otherHands[0].tileCount);
+            
+            // Обновляем сбросы
+            updateDiscards(gameState.discards);
+            
+            // Обновляем доступность кнопок
+            document.getElementById('draw-btn').disabled = gameState.currentPlayer !== playerIdx;
+            document.getElementById('claim-win-btn').disabled = gameState.currentPlayer !== playerIdx;
+            document.getElementById('pass-btn').disabled = gameState.currentPlayer !== playerIdx;
+            document.getElementById('discard-btn').disabled = !selectedTile || gameState.currentPlayer !== playerIdx;
+            
+            // Генерируем ZK-доказательство (имитация)
+            const proofHash = game.createStateHash();
+            document.getElementById('proof-hash').textContent = proofHash;
+        }
+        
+        // Обновление руки игрока
+        function updatePlayerHand(hand) {
+            const playerHandEl = document.getElementById('player-hand');
+            playerHandEl.innerHTML = '';
+            
+            hand.forEach(tile => {
+                const tileEl = createTileElement(tile);
+                tileEl.addEventListener('click', () => {
+                    // Снимаем выделение со всех плиток
+                    document.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
+                    
+                    // Выделяем выбранную плитку
+                    tileEl.classList.add('selected');
+                    selectedTile = tile;
+                    
+                    // Активируем кнопку сброса
+                    document.getElementById('discard-btn').disabled = game.currentPlayer !== playerIdx;
+                });
+                playerHandEl.appendChild(tileEl);
+            });
+        }
+        
+        // Обновление руки противника (показываем только закрытые плитки)
+        function updateOpponentHand(tileCount) {
+            const opponentHandEl = document.getElementById('opponent-hand');
+            opponentHandEl.innerHTML = '';
+            
+            for (let i = 0; i < tileCount; i++) {
+                const tileEl = document.createElement('div');
+                tileEl.className = 'tile back';
+                tileEl.textContent = '?';
+                opponentHandEl.appendChild(tileEl);
+            }
+        }
+        
+        // Обновление сбросов
+        function updateDiscards(discards) {
+            const playerDiscardsEl = document.getElementById('player-discards');
+            const opponentDiscardsEl = document.getElementById('opponent-discards');
+            
+            // Очищаем предыдущее содержимое, сохраняя заголовок
+            playerDiscardsEl.innerHTML = '<h4>Ваш сброс:</h4>';
+            opponentDiscardsEl.innerHTML = '<h4>Сброс противника:</h4>';
+            
+            // Добавляем сброшенные плитки игрока
+            discards[playerIdx].forEach(tile => {
+                playerDiscardsEl.appendChild(createTileElement(tile));
+            });
+            
+            // Добавляем сброшенные плитки противника
+            discards[opponentIdx].forEach(tile => {
+                opponentDiscardsEl.appendChild(createTileElement(tile));
+            });
+        }
+        
+        // Создание HTML-элемента плитки
+        function createTileElement(tile) {
+            const tileEl = document.createElement('div');
+            
+            let tileClass = 'tile';
+            let tileText = '';
+            
+            switch (tile.type) {
+                case TileType.Character:
+                    tileClass += ' character';
+                    tileText = `C${tile.value}`;
+                    break;
+                case TileType.Bamboo:
+                    tileClass += ' bamboo';
+                    tileText = `B${tile.value}`;
+                    break;
+                case TileType.Circle:
+                    tileClass += ' circle';
+                    tileText = `O${tile.value}`;
+                    break;
+                case TileType.Wind:
+                    tileClass += ' wind';
+                    tileText = tile.subtype.charAt(0);
+                    break;
+                case TileType.Dragon:
+                    tileClass += ' dragon';
+                    tileText = tile.subtype.charAt(0);
+                    break;
+            }
+            
+            tileEl.className = tileClass;
+            tileEl.textContent = tileText;
+            tileEl.dataset.id = tile.id;
+            
+            return tileEl;
+        }
+        
+        // Добавление сообщения в лог
+        function addMessage(message) {
+            const messageLogEl = document.getElementById('message-log');
+            const messageEl = document.createElement('div');
+            messageEl.className = 'message';
+            messageEl.textContent = message;
+            messageLogEl.appendChild(messageEl);
+            
+            // Прокручиваем до последнего сообщения
+            messageLogEl.scrollTop = messageLogEl.scrollHeight;
+        }
+        
+        // Функция для хода противника (AI)
+        function opponentTurn() {
+            setTimeout(() => {
+                if (game.currentPlayer === opponentIdx) {
+                    // Имитация принятия решения компьютером
+                    const result = game.applyAction(opponentIdx, PlayerAction.DrawTile);
+                    addMessage(`Противник: ${result.message}`);
+                    
+                    if (result.success) {
+                        setTimeout(() => {
+                            // Находим случайную плитку для сброса
+                            const hand = game.hands[opponentIdx];
+                            if (hand.length > 0) {
+                                const randomTile = hand[Math.floor(Math.random() * hand.length)];
+                                const discardResult = game.applyAction(opponentIdx, PlayerAction.DiscardTile, randomTile.id);
+                                addMessage(`Противник: ${discardResult.message}`);
+                            }
+                            
+                            updateGameView();
+                        }, 1000);
+                    }
+                }
+            }, 1500);
+        }
+        
+        // Установка обработчиков событий
+        document.getElementById('start-game-btn').addEventListener('click', initGame);
+        
+        document.getElementById('draw-btn').addEventListener('click', () => {
+            const result = game.applyAction(playerIdx, PlayerAction.DrawTile);
+            addMessage(result.message);
+            updateGameView();
+        });
+        
+        document.getElementById('discard-btn').addEventListener('click', () => {
+            if (selectedTile) {
+                const result = game.applyAction(playerIdx, PlayerAction.DiscardTile, selectedTile.id);
+                addMessage(result.message);
+                selectedTile = null;
+                updateGameView();
+                
+                // Ход противника
+                opponentTurn();
+            }
+        });
+        
+        document.getElementById('claim-win-btn').addEventListener('click', () => {
+            const result = game.applyAction(playerIdx, PlayerAction.ClaimWin);
+            addMessage(result.message);
+            updateGameView();
+            
+            if (result.success) {
+                setTimeout(() => {
+                    alert("Поздравляем! Вы победили!");
+                }, 500);
+            }
+        });
+        
+        document.getElementById('pass-btn').addEventListener('click', () => {
+            const result = game.applyAction(playerIdx, PlayerAction.Pass);
+            addMessage(result.message);
+            updateGameView();
+            
+            // Ход противника
+            opponentTurn();
+        });
+        
+        // Функция для переключения вкладок
+        function showTab(tabId) {
+            // Скрываем все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Убираем активный класс у всех заголовков вкладок
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показываем выбранную вкладку
+            document.getElementById(tabId).classList.add('active');
+            
+            // Активируем заголовок вкладки
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 </body>
 </html> 
