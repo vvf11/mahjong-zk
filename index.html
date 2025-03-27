@@ -13,6 +13,7 @@
             margin: 0 auto;
             padding: 10px;
             background-color: #0a4e2e;
+            background-image: url('https://www.transparenttextures.com/patterns/bamboo-mat.png');
             overflow-x: hidden;
         }
         header {
@@ -21,14 +22,19 @@
             color: white;
             margin-bottom: 20px;
         }
+        header h1 {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2.5em;
+        }
         .game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             background-color: #0a6e3c;
+            background-image: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             position: relative;
         }
         .game-info {
@@ -49,7 +55,9 @@
             height: 600px;
             overflow: auto;
             background-color: #0a5e30;
+            background-image: url('https://www.transparenttextures.com/patterns/felt.png');
             border-radius: 8px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
         }
         #game-board {
             position: relative;
@@ -63,39 +71,40 @@
             position: absolute;
             width: 55px;
             height: 70px;
-            background-color: #f0f0f0;
+            background-color: #f8f8f8;
             border: 2px solid #ddd;
-            border-radius: 3px;
+            border-radius: 5px;
             cursor: pointer;
-            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 28px;
             font-weight: bold;
             user-select: none;
+            background-image: linear-gradient(to bottom, #fff, #f0f0e8);
         }
         .tile:hover {
-            transform: translateY(-2px);
-            box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.3);
         }
         .tile.selected {
             border-color: #ff5722;
-            box-shadow: 0 0 10px #ff5722;
-            transform: translateY(-5px);
+            box-shadow: 0 0 15px #ff5722;
+            transform: translateY(-8px);
         }
         .tile.disabled {
-            opacity: 0.6;
+            opacity: 0.7;
             cursor: not-allowed;
         }
         .tile.highlight {
             animation: pulse 1s infinite;
         }
         @keyframes pulse {
-            0% { box-shadow: 0 0 5px #ffeb3b; }
-            50% { box-shadow: 0 0 15px #ffeb3b; }
-            100% { box-shadow: 0 0 5px #ffeb3b; }
+            0% { box-shadow: 0 0 8px #ffeb3b; }
+            50% { box-shadow: 0 0 18px #ffeb3b; }
+            100% { box-shadow: 0 0 8px #ffeb3b; }
         }
         .controls {
             margin-top: 20px;
@@ -103,7 +112,7 @@
             gap: 15px;
         }
         button {
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 5px;
             background-color: #4caf50;
@@ -111,14 +120,23 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
         }
         button:hover {
-            background-color: #388e3c;
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
         }
         button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         .game-menu {
             margin-top: 20px;
@@ -134,15 +152,22 @@
         }
         .layout-button {
             background-color: #3f51b5;
+            background-image: linear-gradient(to bottom, #5c6bc0, #3f51b5);
             color: white;
-            padding: 10px 20px;
+            padding: 15px 25px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            font-size: 16px;
         }
         .layout-button:hover {
             background-color: #303f9f;
+            background-image: linear-gradient(to bottom, #3f51b5, #303f9f);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
         }
         .modal {
             display: none;
@@ -153,21 +178,28 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 100;
-            display: flex;
             align-items: center;
             justify-content: center;
         }
         .modal-content {
             background-color: white;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
             padding: 30px;
             border-radius: 8px;
             text-align: center;
             max-width: 500px;
             width: 80%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            animation: modal-appear 0.3s ease-out;
+        }
+        @keyframes modal-appear {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
         .modal h2 {
             margin-top: 0;
             color: #4caf50;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
         .modal p {
             margin-bottom: 20px;
@@ -176,42 +208,58 @@
         
         /* Стили для различных типов плиток */
         .tile.character {
-            background-color: #e8f5e9;
-            color: #2e7d32;
+            background-color: #fffbf0;
+            color: #d32f2f;
+            background-image: linear-gradient(to bottom, #fffbf0, #f8e8c8);
+            border-color: #d8c8a8;
         }
         .tile.bamboo {
-            background-color: #f1f8e9;
-            color: #558b2f;
+            background-color: #f3ffe8;
+            color: #2e7d32;
+            background-image: linear-gradient(to bottom, #f3ffe8, #e0f0d0);
+            border-color: #a8cf8e;
         }
         .tile.circle {
-            background-color: #fffde7;
-            color: #f9a825;
+            background-color: #e8f5ff;
+            color: #1565c0;
+            background-image: linear-gradient(to bottom, #e8f5ff, #d0e8f0);
+            border-color: #a0c8e8;
         }
         .tile.wind {
-            background-color: #e3f2fd;
-            color: #1565c0;
+            background-color: #fff8e8;
+            color: #bf6c24;
+            background-image: linear-gradient(to bottom, #fff8e8, #f0e0c0);
+            border-color: #e0c090;
         }
         .tile.dragon {
-            background-color: #fce4ec;
+            background-color: #ffe8f0;
             color: #c2185b;
+            background-image: linear-gradient(to bottom, #ffe8f0, #f0d0e0);
+            border-color: #e0a0c0;
         }
         .tile.season {
-            background-color: #e0f2f1;
-            color: #00897b;
+            background-color: #f0fff0;
+            color: #558b2f;
+            background-image: linear-gradient(to bottom, #f0fff0, #e0f0e0);
+            border-color: #a0d0a0;
         }
         .tile.flower {
-            background-color: #f3e5f5;
-            color: #8e24aa;
+            background-color: #f8e8ff;
+            color: #7b1fa2;
+            background-image: linear-gradient(to bottom, #f8e8ff, #e8d0f0);
+            border-color: #d0a0e0;
         }
         
         /* Отображение времени и статистики */
         .timer, .moves-counter, .tiles-left {
             font-weight: bold;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
         }
         
         /* Анимация для удаляемых плиток */
         @keyframes remove-tile {
             0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
             100% { transform: scale(0); opacity: 0; }
         }
         .removing {
@@ -225,17 +273,40 @@
         .tile[data-z="3"] { z-index: 4; }
         .tile[data-z="4"] { z-index: 5; }
         
-        /* Добавляем трехмерный эффект с помощью тени */
+        /* Трехмерный эффект для плиток */
+        .tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            border-top: 2px solid rgba(255, 255, 255, 0.7);
+            border-left: 2px solid rgba(255, 255, 255, 0.7);
+            border-right: 2px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+            pointer-events: none;
+        }
+        
+        /* Тень для плиток */
         .tile::after {
             content: '';
             position: absolute;
-            bottom: -4px;
-            right: -4px;
+            bottom: -6px;
+            right: -6px;
             width: 55px;
             height: 70px;
             background-color: rgba(0, 0, 0, 0.15);
-            border-radius: 3px;
+            border-radius: 5px;
             z-index: -1;
+            transition: transform 0.2s;
+        }
+        
+        /* При наведении тень тоже поднимается */
+        .tile:hover::after {
+            transform: translateY(-3px);
         }
         
         /* Отзывчивый дизайн */
@@ -268,7 +339,7 @@
     </header>
     
     <div id="game-menu" class="game-menu">
-        <h2 style="color: white;">Выберите раскладку</h2>
+        <h2 style="color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Выберите раскладку</h2>
         <div class="layout-options">
             <button class="layout-button" data-layout="classic">Классическая</button>
             <button class="layout-button" data-layout="turtle">Черепаха</button>
@@ -335,12 +406,12 @@
                 6: '六', 7: '七', 8: '八', 9: '九'
             },
             Bamboo: {
-                1: '🎋', 2: '🎋', 3: '🎋', 4: '🎋', 5: '🎋', 
-                6: '🎋', 7: '🎋', 8: '🎋', 9: '🎋'
+                1: '🎍', 2: '🎋', 3: '🎍', 4: '🎋', 5: '🎍', 
+                6: '🎋', 7: '🎍', 8: '🎋', 9: '🎍'
             },
             Circle: {
-                1: '⚪', 2: '⚪', 3: '⚪', 4: '⚪', 5: '⚪', 
-                6: '⚪', 7: '⚪', 8: '⚪', 9: '⚪'
+                1: '●', 2: '●', 3: '●', 4: '●', 5: '●', 
+                6: '●', 7: '●', 8: '●', 9: '●'
             },
             Wind: {
                 East: '東', South: '南', West: '西', North: '北'
@@ -377,6 +448,20 @@
         const playAgainBtn = document.getElementById('play-again-btn');
         const reshuffleBtn = document.getElementById('reshuffle-btn');
         const layoutButtons = document.querySelectorAll('.layout-button');
+        
+        // Звуковые эффекты
+        const selectSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3');
+        const matchSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-game-ball-tap-2073.mp3');
+        const winSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3');
+        const hintSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3');
+        const shuffleSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-card-deck-shuffle-586.mp3');
+
+        // Отключаем звук если пользователь его не запустил
+        selectSound.volume = 0.3;
+        matchSound.volume = 0.3;
+        winSound.volume = 0.5;
+        hintSound.volume = 0.3;
+        shuffleSound.volume = 0.3;
         
         // Инициализация игры
         function initGame(layoutName) {
@@ -427,10 +512,12 @@
                 tileElement.dataset.id = tile.id;
                 tileElement.dataset.z = tile.z;
                 
-                // Позиционируем плитку
-                tileElement.style.left = `${tile.x * TILE_WIDTH}px`;
-                tileElement.style.top = `${tile.y * TILE_HEIGHT}px`;
-                tileElement.style.transform = `translateZ(${tile.z * TILE_DEPTH}px)`;
+                // Позиционируем плитку с небольшим случайным смещением для реалистичности
+                const randomOffsetX = (Math.random() * 2 - 1) * 1;
+                const randomOffsetY = (Math.random() * 2 - 1) * 1;
+                tileElement.style.left = `${tile.x * TILE_WIDTH + randomOffsetX}px`;
+                tileElement.style.top = `${tile.y * TILE_HEIGHT + randomOffsetY}px`;
+                tileElement.style.transform = `translateZ(${tile.z * TILE_DEPTH}px) rotate(${(Math.random() * 2 - 1) * 0.5}deg)`;
                 
                 // Добавляем текст/символ на плитку
                 let symbol = '';
@@ -455,6 +542,7 @@
                 // Добавляем обработчик клика
                 tileElement.addEventListener('click', () => {
                     if (tile.isFree) {
+                        selectSound.play();
                         selectTile(tile.id);
                     }
                 });
@@ -477,8 +565,11 @@
                 
                 // Проверяем результат действия
                 if (result.action === 'match') {
+                    matchSound.play();
+                    
                     // Проверяем на завершение игры
                     if (result.gameOver) {
+                        winSound.play();
                         endGame(result);
                     } else if (result.shouldReshuffle) {
                         // Показываем модальное окно о необходимости перемешивания
@@ -493,6 +584,8 @@
             const result = game.getHint();
             
             if (result.success) {
+                hintSound.play();
+                
                 // Подсвечиваем плитки
                 const hintIds = result.hint;
                 
@@ -517,11 +610,11 @@
         
         // Перемешивание плиток
         function shuffleBoard() {
+            shuffleSound.play();
             const result = game.shuffleBoard();
             
             if (result.success) {
                 renderBoard();
-                alert(result.message);
             }
         }
         
@@ -569,8 +662,10 @@
             finalTimeEl.textContent = `${minutes} мин. ${seconds} сек.`;
             finalMovesEl.textContent = result.moves;
             
-            // Показываем модальное окно
-            winModal.style.display = 'flex';
+            // Показываем модальное окно с небольшой задержкой для эффекта
+            setTimeout(() => {
+                winModal.style.display = 'flex';
+            }, 1000);
         }
         
         // Установка обработчиков событий
